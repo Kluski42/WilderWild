@@ -19,21 +19,20 @@
 package net.frozenblock.wilderwild.mixin.entity.experience;
 
 import net.frozenblock.wilderwild.item.AncientHorn;
+import net.frozenblock.wilderwild.registry.RegisterItems;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ExperienceOrb;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(ExperienceOrb.class)
 public class ExperienceOrbMixin {
-
-	@Inject(at = @At("RETURN"), method = "repairPlayerItems", cancellable = true)
-	private void wilderWild$repairAncientHorn(ServerPlayer player, int amount, CallbackInfoReturnable<Integer> cir) {
-		if (AncientHorn.decreaseCooldown(player, amount * 5) != -1) {
-			cir.setReturnValue(0);
+	@ModifyVariable(method = "repairPlayerItems", at = @At("HEAD"), argsOnly = true)
+	private int wilderWild$repairAncientHorn(int amount, ServerPlayer player) {
+		if (player.isHolding(RegisterItems.ANCIENT_HORN)) {
+			return AncientHorn.decreaseCooldown(player, amount);
 		}
+		return amount;
 	}
-
 }

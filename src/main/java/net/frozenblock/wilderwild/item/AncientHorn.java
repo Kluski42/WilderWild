@@ -50,6 +50,7 @@ import org.jetbrains.annotations.Nullable;
 public class AncientHorn extends InstrumentItem {
 	public static final int MIN_BUBBLES = 10;
 	public static final int MAX_BUBBLES = 25;
+	private static final int XP_TIME_MULTIPLIER = 5;
 
 	public AncientHorn(@NotNull Properties settings, @NotNull TagKey<Instrument> instruments) {
 		super(settings, instruments);
@@ -62,19 +63,26 @@ public class AncientHorn extends InstrumentItem {
 		return cooldown;
 	}
 
+	/**
+	 * Attempts to decrease the cooldown time of the ancient horn.
+	 *
+	 * @param user the player to decrease the timer of.
+	 * @param time the amount to decrease the timer in ticks. (i think lol)
+	 * @return if the cooldown was successfully decreased.
+	 */
 	public static int decreaseCooldown(@NotNull Player user, int time) {
 		if (!user.isCreative()) {
 			ItemCooldowns manager = user.getCooldowns();
 			ItemCooldowns.CooldownInstance entry = manager.cooldowns.get(RegisterItems.ANCIENT_HORN);
 			if (entry != null) {
 				int between = entry.endTime - entry.startTime;
-				if (between > 140 && between >= time) {
-					((CooldownInterface) user.getCooldowns()).frozenLib$changeCooldown(RegisterItems.ANCIENT_HORN, -time);
-					return time;
+				if (between > 0) {
+					((CooldownInterface) user.getCooldowns()).frozenLib$changeCooldown(RegisterItems.ANCIENT_HORN, -time * XP_TIME_MULTIPLIER);
+					return Math.max(0, time - Math.ceilDiv(between, XP_TIME_MULTIPLIER));
 				}
 			}
 		}
-		return -1;
+		return time;
 	}
 
 	private static void play(@NotNull Level level, @NotNull Player player, @NotNull Instrument instrument) {
