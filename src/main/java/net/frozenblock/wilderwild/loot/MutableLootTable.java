@@ -3,6 +3,7 @@ package net.frozenblock.wilderwild.loot;
 import java.util.ArrayList;
 import java.util.List;
 import net.frozenblock.wilderwild.loot.impl.LootTableBuilderInterface;
+import net.frozenblock.wilderwild.registry.WWBlocks;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -34,16 +35,17 @@ public class MutableLootTable {
 		return builder.build();
 	}
 
-//	private static LootTable addToTable(LootTable table) {
-//		LootTable.Builder builder = ((LootTableInterface) table).wilderWild$unbuildWithoutPools();
-//		List<LootPool.Builder> lootPools = ((LootTableInterface) table).wilderWild$getLootPools();
-//		lootPools.getLast().add(LootItem.lootTableItem(Items.DIAMOND).setWeight(8).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))));
-//		lootPools.forEach(builder::withPool);
-//		return builder.build();
-//	}
 
 	public MutableLootTable addToTable() {
-		pools.getLast().add(Items.CLAY, 8, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+		Condition condition = lootPool -> lootPool.hasItem(Items.ACACIA_LOG);
+		pools.forEach(pool -> {
+			if (condition.test(pool)) {
+				pool.add(WWBlocks.BAOBAB_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+				pool.add(WWBlocks.CYPRESS_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+				pool.add(WWBlocks.MAPLE_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+				pool.add(WWBlocks.PALM_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+			}
+		});
 		return this;
 	}
 

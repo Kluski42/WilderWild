@@ -207,3 +207,4 @@ accessible field net/minecraft/world/level/storage/loot/LootTable randomSequence
 accessible field net/minecraft/world/level/storage/loot/LootTable pools Ljava/util/List;
 accessible field net/minecraft/world/level/storage/loot/LootTable functions Ljava/util/List;
 accessible field net/minecraft/world/level/storage/loot/LootTable compositeFunction Ljava/util/function/BiFunction;
+accessible field net/minecraft/world/level/storage/loot/entries/LootItem item Lnet/minecraft/core/Holder;

@@ -12,11 +12,11 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.NumberProvider;
 
 public class MutableLootPool {
-	private ArrayList<LootPoolEntryContainer> entries = new ArrayList<>();
-	private ArrayList<LootItemCondition> conditions = new ArrayList<>();
-	private ArrayList<LootItemFunction> functions = new ArrayList<>();
-	private NumberProvider rolls = ConstantValue.exactly(1.0F);
-	private NumberProvider bonusRolls = ConstantValue.exactly(0.0F);
+	public ArrayList<LootPoolEntryContainer> entries = new ArrayList<>();
+	public ArrayList<LootItemCondition> conditions = new ArrayList<>();
+	public ArrayList<LootItemFunction> functions = new ArrayList<>();
+	public NumberProvider rolls = ConstantValue.exactly(1.0F);
+	public NumberProvider bonusRolls = ConstantValue.exactly(0.0F);
 
 	public MutableLootPool(LootPool lootPool) {
 		entries.addAll(lootPool.entries);
@@ -40,4 +40,18 @@ public class MutableLootPool {
 		entries.add(LootItem.lootTableItem(item).setWeight(weight).apply(builder).build());
 		return this;
 	}
+
+	public boolean hasItem(Item item) {
+		for (LootPoolEntryContainer entryContainer : entries) {
+			if (entryContainer instanceof LootItem lootItem) {
+				if (lootItem.item.value().equals(item)) return true;
+			}
+		}
+		return false;
+	}
+}
+
+@FunctionalInterface
+interface Condition {
+	boolean test(MutableLootPool lootPool);
 }
