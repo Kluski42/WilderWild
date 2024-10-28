@@ -1,7 +1,7 @@
 package net.frozenblock.wilderwild.mixin.loot;
 
 import com.google.common.collect.ImmutableList;
-import net.frozenblock.wilderwild.datagen.loot.impl.LootPoolBuilderInterface;
+import net.frozenblock.wilderwild.loot.impl.LootPoolBuilderInterface;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;

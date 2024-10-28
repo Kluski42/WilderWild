@@ -1,4 +1,4 @@
-package net.frozenblock.wilderwild.datagen.loot.impl;
+package net.frozenblock.wilderwild.loot.impl;
 
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;

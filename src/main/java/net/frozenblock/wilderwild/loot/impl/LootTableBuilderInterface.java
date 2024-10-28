@@ -1,4 +1,4 @@
-package net.frozenblock.wilderwild.datagen.loot.impl;
+package net.frozenblock.wilderwild.loot.impl;
 
 import java.util.Optional;
 import net.minecraft.resources.ResourceLocation;

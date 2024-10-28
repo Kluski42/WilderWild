@@ -21,7 +21,7 @@ package net.frozenblock.wilderwild.registry;
 import java.util.List;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.frozenblock.wilderwild.WWConstants;
-import net.frozenblock.wilderwild.datagen.loot.impl.LootTableInterface;
+import net.frozenblock.wilderwild.loot.impl.LootTableInterface;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
