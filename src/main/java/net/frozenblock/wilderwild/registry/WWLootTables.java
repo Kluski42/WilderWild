@@ -18,11 +18,15 @@
 
 package net.frozenblock.wilderwild.registry;
 
+import java.util.List;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.frozenblock.wilderwild.WWConstants;
+import net.frozenblock.wilderwild.datagen.loot.impl.LootTableInterface;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -97,5 +101,20 @@ public final class WWLootTables {
 				tableBuilder.withPool(pool);
 			}
 		});
+		//BONUS CHEST
+		LootTableEvents.REPLACE.register((id, lootTable, source) -> {
+			if (BuiltInLootTables.SPAWN_BONUS_CHEST.equals(id) && source.isBuiltin()) {
+				return addToTable(lootTable);
+			}
+			return lootTable;
+		});
+	}
+
+	private static LootTable addToTable(LootTable table) {
+		LootTable.Builder builder = ((LootTableInterface) table).wilderWild$unbuildWithoutPools();
+		List<LootPool.Builder> lootPools = ((LootTableInterface) table).wilderWild$getLootPools();
+		lootPools.getLast().add(LootItem.lootTableItem(Items.DIAMOND).setWeight(8).apply(SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F))));
+		lootPools.forEach(builder::withPool);
+		return builder.build();
 	}
 }
