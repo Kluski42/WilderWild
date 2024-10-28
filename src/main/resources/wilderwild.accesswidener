@@ -200,3 +200,10 @@ accessible field net/minecraft/client/particle/Particle zd D
 accessible method net/minecraft/client/particle/FlameParticle <init> (Lnet/minecraft/client/multiplayer/ClientLevel;DDDDDD)V
 accessible field net/minecraft/client/particle/CherryParticle rotSpeed F
 accessible field net/minecraft/client/particle/Particle gravity F
+
+# Loot
+accessible field net/minecraft/world/level/storage/loot/LootTable paramSet Lnet/minecraft/world/level/storage/loot/parameters/LootContextParamSet;
+accessible field net/minecraft/world/level/storage/loot/LootTable randomSequence Ljava/util/Optional;
+accessible field net/minecraft/world/level/storage/loot/LootTable pools Ljava/util/List;
+accessible field net/minecraft/world/level/storage/loot/LootTable functions Ljava/util/List;
+accessible field net/minecraft/world/level/storage/loot/LootTable compositeFunction Ljava/util/function/BiFunction;
