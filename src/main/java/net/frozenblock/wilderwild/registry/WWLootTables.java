@@ -103,7 +103,11 @@ public final class WWLootTables {
 		LootTableEvents.REPLACE.register((id, lootTable, source) -> {
 			if (BuiltInLootTables.SPAWN_BONUS_CHEST.equals(id) && source.isBuiltin()) {
 				MutableLootTable mutableLootTable = new MutableLootTable(lootTable);
-				mutableLootTable.addToTable(lootPool -> lootPool.hasItem(Items.ACACIA_LOG));
+				mutableLootTable.modifyPools(
+					MutableLootTable.has(Items.ACACIA_LOG),
+					lootPool -> lootPool.addAll(3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)),
+						WWBlocks.BAOBAB_LOG, WWBlocks.CYPRESS_LOG, WWBlocks.MAPLE_LOG, WWBlocks.PALM_LOG)
+				);
 				return mutableLootTable.build();
 			}
 			return lootTable;

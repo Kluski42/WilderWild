@@ -2,16 +2,15 @@ package net.frozenblock.wilderwild.loot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import net.frozenblock.wilderwild.loot.impl.LootTableBuilderInterface;
-import net.frozenblock.wilderwild.registry.WWBlocks;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
-import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
-import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
 public class MutableLootTable {
 	private ArrayList<MutableLootPool> pools = new ArrayList<>();
@@ -35,22 +34,69 @@ public class MutableLootTable {
 		return builder.build();
 	}
 
+	/**
+	 * Runs the consumer on each pool
+	 *
+	 * @return this
+	 */
+	public MutableLootTable modifyPools(Consumer<MutableLootPool> consumer) {
+		pools.forEach(consumer);
+		return this;
+	}
 
-	public MutableLootTable addToTable(Predicate<MutableLootPool> condition) {
+	/**
+	 * Runs the consumer on each pool that matches the condition
+	 *
+	 * @return this
+	 */
+	public MutableLootTable modifyPools(Predicate<MutableLootPool> condition, Consumer<MutableLootPool> consumer) {
 		pools.forEach(pool -> {
 			if (condition.test(pool)) {
-				pool.add(WWBlocks.BAOBAB_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
-				pool.add(WWBlocks.CYPRESS_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
-				pool.add(WWBlocks.MAPLE_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
-				pool.add(WWBlocks.PALM_LOG.asItem(), 3, SetItemCountFunction.setCount(UniformGenerator.between(1.0F, 3.0F)));
+				consumer.accept(pool);
 			}
 		});
 		return this;
 	}
 
+	/**
+	 * Converts a list of loot pools to an array list of mutable loot pools
+	 *
+	 * @param lootPoolList loot pools to copy
+	 * @return array list of converted loot pools from input
+	 */
 	private static ArrayList<MutableLootPool> createLootPools(List<LootPool> lootPoolList) {
 		ArrayList<MutableLootPool> lootPools = new ArrayList<>();
 		lootPoolList.forEach(pool -> lootPools.add(new MutableLootPool(pool)));
 		return lootPools;
+	}
+
+	/**
+	 * Returns if a pool has the given item
+	 *
+	 * @param item item to check for
+	 * @return predicate that checks if the pool has the given item
+	 */
+	public static Predicate<MutableLootPool> has(Item item) {
+		return lootPool -> lootPool.hasItem(item);
+	}
+
+	/**
+	 * Returns if a pool has any of the given items
+	 *
+	 * @param items items to check for
+	 * @return predicate that checks if the pool has any of the given items
+	 */
+	public static Predicate<MutableLootPool> hasAny(Item... items) {
+		return lootPool -> lootPool.hasAnyItems(items);
+	}
+
+	/**
+	 * Returns if a pool has all the given items
+	 *
+	 * @param items items to check for
+	 * @return predicate that checks if the pool has all the given items
+	 */
+	public static Predicate<MutableLootPool> hasAll(Item... items) {
+		return lootPool -> lootPool.hasAllItems(items);
 	}
 }
