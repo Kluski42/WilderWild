@@ -50,8 +50,3 @@ public class MutableLootPool {
 		return false;
 	}
 }
-
-@FunctionalInterface
-interface Condition {
-	boolean test(MutableLootPool lootPool);
-}

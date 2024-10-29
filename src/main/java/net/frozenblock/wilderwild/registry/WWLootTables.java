@@ -21,6 +21,7 @@ package net.frozenblock.wilderwild.registry;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.frozenblock.wilderwild.WWConstants;
 import net.frozenblock.wilderwild.loot.MutableLootTable;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
@@ -102,7 +103,7 @@ public final class WWLootTables {
 		LootTableEvents.REPLACE.register((id, lootTable, source) -> {
 			if (BuiltInLootTables.SPAWN_BONUS_CHEST.equals(id) && source.isBuiltin()) {
 				MutableLootTable mutableLootTable = new MutableLootTable(lootTable);
-				mutableLootTable.addToTable();
+				mutableLootTable.addToTable(lootPool -> lootPool.hasItem(Items.ACACIA_LOG));
 				return mutableLootTable.build();
 			}
 			return lootTable;
