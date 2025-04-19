@@ -26,6 +26,7 @@ public final class WWFood {
 	public static final FoodProperties CRAB_CLAW = new FoodProperties.Builder().nutrition(1).saturationModifier(0.1F).build();
 	public static final FoodProperties COOKED_CRAB_CLAW = new FoodProperties.Builder().nutrition(4).saturationModifier(0.4F).build();
 	public static final FoodProperties PRICKLY_PEAR = new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build();
+	public static final FoodProperties PEALED_PRICKLY_PEAR = new FoodProperties.Builder().nutrition(4).saturationModifier(0.3f).build();
 	public static final FoodProperties SPLIT_COCONUT = new FoodProperties.Builder().nutrition(2).saturationModifier(0.4F).build();
 	public static final FoodProperties SCORCHED_EYE = new FoodProperties.Builder()
 		.nutrition(3)
